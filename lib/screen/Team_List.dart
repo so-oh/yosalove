@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:yosalove/screen/Team_Add.dart';
 
 class TeamList extends StatefulWidget {
   const TeamList({super.key});
@@ -10,7 +11,6 @@ class TeamList extends StatefulWidget {
 }
 
 class _TeamListState extends State<TeamList> {
-
 @override
 Widget build(BuildContext context) {
 
@@ -19,7 +19,7 @@ Widget build(BuildContext context) {
 
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-      title: Text('チームリスト'),
+      title: Text('推しチームリスト'),
     ),
     body: ListView(
       children: [
@@ -48,7 +48,9 @@ Widget build(BuildContext context) {
     ),
 
     floatingActionButton: FloatingActionButton(
-      onPressed: (){},
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder:(context) => TeamAdd() ));
+      },
       child: Icon(Icons.add),
     ),
 
