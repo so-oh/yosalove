@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:yosalove/screen/Team_Add.dart';
+import 'package:yosalove/screen/Team_View.dart';
 
 class TeamList extends StatefulWidget {
-  const TeamList({super.key});
+  TeamList({Key? key}) : super(key: key);
 
   @override
   State<TeamList> createState() => _TeamListState();
@@ -13,6 +14,8 @@ class TeamList extends StatefulWidget {
 class _TeamListState extends State<TeamList> {
 @override
 Widget build(BuildContext context) {
+//チームリストのデータを設定
+  List<Map<String, dynamic>> teamList = []; // チームリストの型を変更
 
   return Scaffold(
     appBar: AppBar(
@@ -21,39 +24,44 @@ Widget build(BuildContext context) {
 
       title: Text('推しチームリスト'),
     ),
-    body: ListView(
-      children: [
-        SizedBox(height: 8),
-        ListTile(
-          leading: Image.network('https://lh3.googleusercontent.com/proxy/6GVuMEGjNUGfe_3SmgXqD1G1ev-SJQQ5vkeCOox5MTC90h3n258S-JF9_KICnu0acNnOxvSZW0R2'),
-          title: Text('よさこいサークル隼人'),
-          onTap: (){},
-        ),
-        SizedBox(height: 8),
-        ListTile(
-          leading: Image.network('https://pbs.twimg.com/ext_tw_video_thumb/1643099170700693504/pu/img/21eZw3HeTdPcApOc?format=jpg&name=large'),
-          title: Text('志學館大学よさこい踊り連我流楽'),
-          onTap: (){},
-        ),
-        SizedBox(height: 8),
-        ListTile(
-          leading: Image.network('https://static.yosakoi-soran.jp/wp-content/uploads/2023/04/02071956/%E9%B9%BF%E5%85%90%E5%B3%B6%E5%9B%BD%E9%9A%9B%E5%A4%A7%E5%AD%A6-%E3%82%88%E3%81%95%E3%81%93%E3%81%84%E9%83%A8-%E5%89%B5%E7%94%9F%E5%85%90.jpeg'),
-          title: Text('鹿児島国際大学よさこい部創生児'),
-          onTap: (){},
-        ),
+    body: ListView.builder(
+      itemCount: teamList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: ListTile(
+            title: Text(teamList[index]["teamname"].toString()),
+            // onTap: () {
+            //   // 選択されたチームの詳細画面に遷移する
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute(builder: (context) => TeamView(teamData: teamList[index])),
+            //   );
+            // },
+          ),
+        );
+
+      },//チームリストを表示
 
 
 
-      ],
     ),
 
-    floatingActionButton: FloatingActionButton(
-      onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder:(context) => TeamAdd() ));
-      },
-      child: Icon(Icons.add),
-    ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {//追加画面で入力された名前などの値を取得する
+          final Map<String, dynamic>? newTeamList = await Navigator.of(context).push(
+            MaterialPageRoute(builder:(context) => TeamAdd()),
+          );
+          //もしも値が取得できたら
+          if(newTeamList != null){
+                setState(() {
+                  teamList.add(newTeamList);
+                });
+            };
+          },
+        child: Icon(Icons.add),
+      ),
 
     );
+
+
   }
 }
